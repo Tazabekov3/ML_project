@@ -1,0 +1,10 @@
+streamlit
+scikit-learn
+shap
+numpy
+pandas
+matplotlib
+mne
+antropy
+scipy
+umap-learn
