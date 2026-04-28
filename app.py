@@ -24,7 +24,7 @@ pipeline = load_model()
 feature_names, sample_input = load_metadata()
 
 # ── UI ───────────────────────────────────────────────────────────────────
-st.title("🧠 Sleep Anomaly Detector")
+st.title("Sleep Anomaly Detector")
 st.markdown("Detects anomalous sleep epochs from EEG features using a trained Random Forest pipeline.")
 
 st.sidebar.header("Input EEG Features")
@@ -37,14 +37,14 @@ for feat in feature_names:
         feat, value=default, format="%.5f"
     )
 
-if st.button("🔍 Predict & Explain"):
+if st.button("Predict & Explain"):
     X_input = pd.DataFrame([user_input])
 
     # ── Prediction ──────────────────────────────────────────────────────
     prediction = pipeline.predict(X_input)[0]
     proba = pipeline.predict_proba(X_input)[0]
 
-    label = "🚨 Anomalous" if prediction == 1 else "✅ Normal"
+    label = "Anomalous" if prediction == 1 else "Normal"
     confidence = proba[prediction]
 
     st.subheader("Prediction")
@@ -53,7 +53,7 @@ if st.button("🔍 Predict & Explain"):
 
     # ── SHAP Explanation ─────────────────────────────────────────────────
     st.subheader("SHAP Explanation")
-    st.markdown("Which features pushed this prediction toward *Anomalous* or *Normal*?")
+    st.markdown("Which features pushed this prediction toward Anomalous or Normal?")
 
     # Transform input through all pipeline steps except final estimator
     preprocessor_steps = pipeline[:-1]
