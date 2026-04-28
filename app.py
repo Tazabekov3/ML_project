@@ -68,10 +68,17 @@ if st.button("🔍 Predict & Explain"):
     selected_indices = selector.get_support(indices=True)
     selected_feat_names = [feature_names[i] for i in selected_indices]
 
-    # Plot for class 1 (Anomalous)
+    # Handle both SHAP output formats:
+    # Old: shap_values is a list [class_0_array, class_1_array]
+    # New: shap_values is a single 3D array of shape (n_samples, n_features, n_classes)
+    if isinstance(shap_values, list):
+        sv = shap_values[1][0]   # class 1, first sample
+    else:
+        sv = shap_values[0, :, 1] if shap_values.ndim == 3 else shap_values[0]
+
     fig, ax = plt.subplots(figsize=(8, 5))
     shap.bar_plot(
-        shap_values[1][0],
+        sv,
         feature_names=selected_feat_names,
         max_display=10,
         show=False
@@ -79,5 +86,3 @@ if st.button("🔍 Predict & Explain"):
     plt.title("Top 10 Features Contributing to Anomaly Score")
     plt.tight_layout()
     st.pyplot(fig)
-
-    st.caption("Positive SHAP values push toward Anomalous; negative values push toward Normal.")
